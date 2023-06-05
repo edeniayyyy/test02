@@ -1,0 +1,79 @@
+#spring:
+#  datasource:
+#    url: jdbc:sqlite:D:/Myself/JAVA/idea_projects/test_mybatis/test.db
+#    name:
+#    password:
+#    driver-class-name: org.sqlite.JDBC
+
+#pagehelper:
+#  auto-dialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+#  page-size-zero: true
+#  params: count=countSql
+
+#  #分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。 你可以配置helperDialect 属性来指定分页插件使用哪种方言。
+#  pagehelper.helper-dialect=mysql
+#  #分页合理化参数，默认值为 false 。当该参数设置为 true 时， pageNum<=0 时会查询第一页， pageNum>pages （超过总数时），会查询最后一页。
+#  pagehelper.reasonable=true
+#  #支持通过Mapper接口参数传递page参数,默认值为falset
+#  pagehelper.support-methods-arguments=true
+#  #默认值为 false ，当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit =0 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。
+#  pagehelper.pageSizeZero=true
+#  #为了支持 startPage(Object params) 方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值
+#  pagehelper.params=count=countSql
+server:
+  port: 8000
+
+spring:
+  application:
+    name: testBlog
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+# 需要使用nacos服务注册中心
+
+# druid配置
+  datasource:
+    #   数据源基本配置
+    username: root
+    password: root
+#    url: jdbc:sqlite:D:/Myself/JAVA/idea_projects/test_mybatis/test.db?date_string_format=yyyy-MM-dd
+#    driver-class-name: org.sqlite.JDBC
+    url: jdbc:mysql://localhost:3306/testblog?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    #初始化时建立物理连接的个数
+    initial-size: 5
+    #最小连接池数量
+    min-idle: 5
+    #最大连接池数量 maxIdle已经不再使用
+    max-active: 20
+    #获取连接时最大等待时间，单位毫秒
+    max-wait: 60000
+    #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    test-while-idle: true
+    #既作为检测的间隔时间又作为testWhileIdel执行的依据
+    time-between-eviction-runs-millis: 60000
+    #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+    min-evictable-idle-time-millis: 30000
+    #用来检测连接是否有效的sql 必须是一个查询语句
+    #mysql中为 select 'x'
+    #oracle中为 select 1 from dual
+    validation-query: select 'x'
+    #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+    test-on-borrow: false
+    #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+    test-on-return: false
+    # 是否缓存preparedStatement
+    pool-prepared-statements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    #配置监拉统计挡成的filters. stat: 监控统计、Log4j:日志记录、waLL: 防御sqL注入
+    #如果启用日志记录时报错java.lang.ClassNotFoundException: org.apache.log4j.Priority
+    #则导入Log4j 依赖即时，Maven 地址: https://mvnrepository. com/artifact/log4j/log4
+    filters: stat,wall,1og4j
+    max-pool-prepared-statement-per-connection-size: 20
+    use-global-data-source-stat: true
+    connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
