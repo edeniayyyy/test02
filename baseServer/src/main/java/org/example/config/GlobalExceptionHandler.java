@@ -1,7 +1,9 @@
 package org.example.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.Enum.ExceptionEnum;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.example.enums.ExceptionEnum;
 import org.example.common.BizException;
 import org.example.common.ResultResponse;
 import org.slf4j.Logger;
@@ -45,6 +47,13 @@ public class GlobalExceptionHandler {
         return ResultResponse.error(ExceptionEnum.BODY_NOT_MATCH);
     }
 
+    @ExceptionHandler(value = AuthorizationException.class)
+    @ResponseBody
+    public ResultResponse unauthenticatedHandler(HttpServletRequest req, AuthorizationException e){
+        logger.error("没有权限访问:",e);
+        return ResultResponse.error(ExceptionEnum.Unauthenticated);
+    }
+
     /**
      * 处理其他异常
      * @param req
@@ -55,6 +64,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultResponse exceptionHandler(HttpServletRequest req, Exception e){
         logger.error("未知异常！原因是:",e);
-        return ResultResponse.error(ExceptionEnum.INTERNAL_SERVER_ERROR);
+        ResultResponse error = ResultResponse.error(ExceptionEnum.INTERNAL_SERVER_ERROR);
+        error.setResult(e.toString());
+        return error;
     }
 }

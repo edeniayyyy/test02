@@ -1,7 +1,7 @@
 package org.example.common;
 
 import com.alibaba.fastjson.JSONObject;
-import org.example.Enum.ExceptionEnum;
+import org.example.enums.ExceptionEnum;
 
 public class ResultResponse {
     /**

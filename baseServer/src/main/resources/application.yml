@@ -28,10 +28,25 @@ server:
 spring:
   application:
     name: testBlog
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+#    password: 123456
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数，负值表示无限制
+        max-wait: -1 # 连接池最大阻塞等待时间，负值表示无限制
+        max-idle: 500 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
 # 需要使用nacos服务注册中心
 
 # druid配置
@@ -42,7 +57,7 @@ spring:
 #    url: jdbc:sqlite:D:/Myself/JAVA/idea_projects/test_mybatis/test.db?date_string_format=yyyy-MM-dd
 #    driver-class-name: org.sqlite.JDBC
     url: jdbc:mysql://localhost:3306/testblog?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
     #初始化时建立物理连接的个数
@@ -77,3 +92,8 @@ spring:
     max-pool-prepared-statement-per-connection-size: 20
     use-global-data-source-stat: true
     connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志

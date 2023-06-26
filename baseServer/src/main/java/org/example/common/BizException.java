@@ -1,6 +1,6 @@
 package org.example.common;
 
-import org.example.Enum.ExceptionEnum;
+import org.example.enums.ExceptionEnum;
 
 public class BizException extends RuntimeException {
     private static final long serialVersionUID = 1L;

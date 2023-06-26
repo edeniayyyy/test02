@@ -1,4 +1,4 @@
-package org.example.aop;
+package org.example.common.aop;
 
 
 
@@ -8,7 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.example.annotation.logTest;
+import org.example.common.annotation.logTest;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
@@ -22,14 +22,14 @@ import java.util.Map;
 public class logTestAop {
 
     // 切点
-    @Pointcut("@annotation(org.example.annotation.logTest)")
+    @Pointcut("@annotation(org.example.common.annotation.logTest)")
     public void aspect() {}
 
     //配置前置通知,使用在方法aspect()上注册的切入点
     //同时接受JoinPoint切入点对象,可以没有该参数
     @Before("aspect()")
-    public void Before() {
-        log.info("before ....");
+    public void Before(JoinPoint point) {
+        log.info("before ...." + point.toString());
     }
 
     // 后置通知
@@ -74,9 +74,9 @@ public class logTestAop {
         log.info("入参" + paramMap.toString());
 
         // 修改入参
-        inputArgs[0] = "spring aop args";
+//        inputArgs[0] = "spring aop args";
         // 执行方法
-        Object result = joinPoint.proceed(inputArgs);
+        Object result = joinPoint.proceed();
 
         log.info( "反射结果----->"+ result);
 
